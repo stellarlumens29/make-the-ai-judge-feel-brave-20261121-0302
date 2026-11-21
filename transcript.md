@@ -67,9 +67,25 @@ this file is the human-readable record of the same session.)
 8. **Created the public GitHub repository** under the user's own account
    (`stellarlumens29`, MIT license) after the competition opened, and
    pushed `main.py`, `README.md`, `LICENSE` and this file.
-9. **Attempted the make.fun transcript bundle** with the kit CLI
-   (`node cli/makefun.mjs bundle`) against this session's log; see the
-   submission notes in the final report for its outcome.
+9. **Ran the make.fun transcript bundle dry-run** with the kit CLI
+   (`node cli/makefun.mjs bundle --dry-run`). It found both sessions
+   (the parent agent's and this subagent's), the system prompt and one
+   instruction file, and redacted personal details on its own. It
+   reported three gaps that only the top-level (parent) agent can close,
+   so the bundle, the pre-submit check and the submission itself must be
+   run from the parent agent, not from this subagent:
+   - the run record's prompt: the earliest session opens with no message
+     in the user's own words — the parent must pass the user's verbatim
+     opening prompt with `--prompt-file`, `--prompt-origin` and
+     `--prompt-via`;
+   - the MCP servers used by the run are not shown in the sessions —
+     the parent must name them with `--mcp` or declare `--mcp none`;
+   - usage rows: 0 usage rows are attached to these Muse app sessions,
+     and a subagent's usage row is only written once its run completes —
+     the parent must run the usage SELECT with its own agent id and each
+     subagent's, then bundle and submit.
+   The dry-run wrote nothing. The kit used for it lives beside this
+   repository (not in it) so the repo stays clean.
 
 ## Design rationale (kept with the entry)
 
